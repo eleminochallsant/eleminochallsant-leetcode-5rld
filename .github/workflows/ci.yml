@@ -1,0 +1,23 @@
+name: Verify Solutions
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 6 * * 2,5"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run solution tests
+        run: |
+          cd solutions
+          python -m py_compile *.py
+          python test_solutions.py
+          echo "All solutions verified"
